@@ -1,0 +1,24 @@
+name: test-package-pipeline
+
+on:
+  push:
+    branches:
+      - main
+permissions: write-all
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+        
+      - name: getting version details
+        uses: johnnybenson/package-json-versioned-action@v1.0.5
+        id: package-json
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PACKAGE_JSON_PATH: package.json
+      - run: echo "has-updated -- ${{ steps.package-json.outputs.has-updated }}"
+      - run: echo "previous-version -- ${{ steps.package-json.outputs.previous-version }}"
+      - run: echo "version -- ${{ steps.package-json.outputs.version }}"
