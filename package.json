@@ -1,6 +1,6 @@
 {
     "name": "helloTest",
-    "version": "1.0.8-alpha",
+    "version": "1.0.8-alpha-dev",
     "description": "Build integrations for Link Unfurls, DB Sync and lot more in Notion",
     "main": "src/index2.js"
 }
