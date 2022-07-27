@@ -1,0 +1,43 @@
+name: test-package-pipeline
+
+on:
+  push:
+    branches:
+      - main
+permissions: write-all
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+        
+      - name: getting version details
+        uses: johnnybenson/package-json-versioned-action@v1.0.5
+        id: package-json
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PACKAGE_JSON_PATH: package.json
+      - run: echo "has-updated -- ${{ steps.package-json.outputs.has-updated }}"
+      - run: echo "previous-version -- ${{ steps.package-json.outputs.previous-version }}"
+      - run: echo "version -- ${{ steps.package-json.outputs.version }}"
+
+
+      #- name: publishing package to codeartifact
+      #  if: ${{ steps.package-json.outputs.has-updated }} == true
+      #- uses: actions/setup-node@v3
+      #  with:
+      #    node-version: 14
+      #- name: Configure AWS credentials
+      #  uses: aws-actions/configure-aws-credentials@master
+      #  with:
+      #    role-to-assume: arn:aws:iam::084544977822:role/GitHubActionsCICDRole
+      #    aws-region: us-east-2
+      #- run: export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain notion --domain-owner 084544977822 --query authorizationToken --output text`
+      #- run: npm publish
+      
+        
+          
+        
+      
